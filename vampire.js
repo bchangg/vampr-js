@@ -43,26 +43,18 @@ class Vampire {
     return this.numberOfVampiresFromOriginal < vampire.numberOfVampiresFromOriginal;
   }
 
-  /** Stretch **/
-
-  // Returns the closest common ancestor of two vampires.
-  // The closest common anscestor should be the more senior vampire if a direct ancestor is used.
-  // For example:
-  // * when comparing Ansel and Sarah, Ansel is the closest common anscestor.
-  // * when comparing Ansel and Andrew, Ansel is the closest common anscestor.
+  // After much frustration, I found an implementation in C which allows for quick LCA comparison.
+  // However, I was not sure whether it would work with a non-binary tree. After implementing the function, I don't
+  // see why it wouldn't work.
+  // - create path for given vampire and current vampire (this)
+  // - reverse both paths
+  // - start from 0 and traverse both paths simultaneously
+  // - if the paths split, we can return the node that came right before the split: this is the LCA
+  // SOURCE: https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
   closestCommonAncestor(vampire) {
     let current = this;
     let currentPath = [];
     let vampirePath = [];
-
-    // After much frustration, I found an implementation in C which allows for quick LCA comparison.
-    // However, I was not sure whether it would work with a non-binary tree. After implementing the function, I don't
-    // see why it wouldn't work.
-    // - create path for given vampire and current vampire (this)
-    // - reverse both paths
-    // - start from 0 and traverse both paths simultaneously
-    // - if the paths split, we can return the node that came right before the split: this is the LCA
-    // SOURCE: https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
 
     while (current) {
       currentPath.push(current);
@@ -84,6 +76,7 @@ class Vampire {
     }
     return currentPath[i - 1];
   }
+
 }
 
 module.exports = Vampire;
